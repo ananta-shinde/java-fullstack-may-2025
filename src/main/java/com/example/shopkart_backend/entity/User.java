@@ -24,6 +24,9 @@ public class User {
    private String email;
    @Column(nullable = false)
    private String password;
+
+   @OneToOne
+   private Cart cart;
    @CreationTimestamp
    private LocalDateTime created_at;
    @UpdateTimestamp
@@ -85,5 +88,13 @@ public class User {
 
    public void setUpdate_at(LocalDateTime update_at) {
       this.update_at = update_at;
+   }
+
+   public Cart getCart() {
+      return cart;
+   }
+
+   public void setCart(Cart cart) {
+      this.cart = cart;
    }
 }

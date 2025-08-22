@@ -23,6 +23,15 @@ public class ProductController {
         return response;
     }
 
+    @GetMapping("/api/v1/products/category/{categoryId}")
+    public Response getProductsByCategory(@PathVariable int categoryId){
+        Response response = new Response();
+        response.setData(productService.getProductListByCategory(categoryId));
+        response.setMessage("product list fetched successfully");
+        response.setSuccess(true);
+        return response;
+    }
+
     @GetMapping("/api/v1/products/{productId}")
     public Response getAllproductById(@PathVariable Integer productId){
         Response response = new Response();
