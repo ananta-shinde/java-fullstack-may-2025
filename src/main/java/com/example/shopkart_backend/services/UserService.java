@@ -1,9 +1,9 @@
 package com.example.shopkart_backend.services;
 
 import com.example.shopkart_backend.entity.Cart;
+import com.example.shopkart_backend.entity.Customer;
 import com.example.shopkart_backend.entity.User;
-import com.example.shopkart_backend.repositories.CartRepository;
-import com.example.shopkart_backend.repositories.UserRepository;
+import com.example.shopkart_backend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,12 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private SellerRepository sellerRepository;
 
     public List<User> getUsersList(){
         return (List<User>)userRepository.findAll();
@@ -30,9 +36,15 @@ public class UserService {
 
     public User createUser(User user){
         Cart cart = new Cart();
-        cart = cartRepository.save(cart);
         user.setCart(cart);
-        return userRepository.save(user);
+        if(user.getRole().getId() == 1) {
+            user.setRole(roleRepository.findById(1).get());
+            User newuser = userRepository.save(user);
+            Customer customer = new Customer();
+            customer.setUser(newuser);
+             customerRepository.save(customer);
+        }
+        return null;
     }
 
     public User resetPassword(User user){

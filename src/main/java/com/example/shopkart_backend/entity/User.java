@@ -32,7 +32,20 @@ public class User {
    @UpdateTimestamp
    private LocalDateTime update_at;
 
+   @OneToOne
+   private Role role;
+
+
+
    private boolean isActive = true;
+
+   public Role getRole() {
+      return role;
+   }
+
+   public void setRole(Role role) {
+      this.role = role;
+   }
 
    public boolean isActive() {
       return isActive;

@@ -2,6 +2,7 @@ package com.example.shopkart_backend.controller;
 
 import com.example.shopkart_backend.entity.Product;
 import com.example.shopkart_backend.response.Response;
+import com.example.shopkart_backend.services.CartService;
 import com.example.shopkart_backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import java.util.NoSuchElementException;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/api/v1/products/all")
     public Response getAllproducts(){
@@ -65,6 +68,15 @@ public class ProductController {
         productService.deleteProductById(productId);
         response.setMessage("product deleted successfully");
         response.setSuccess(true);
+        return response;
+    }
+
+    @PostMapping("/api/v1/carts/{cartId}")
+    public Response addproductToCart(@PathVariable int cartId,@RequestBody Product product){
+        Response response = new Response();
+        cartService.addProductToCart(cartId,product);
+        response.setSuccess(true);
+        response.setMessage("Product successfully added to cart");
         return response;
     }
 
